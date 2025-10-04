@@ -63,6 +63,10 @@ void stringify(std::ostringstream &out, signed char obj) {
   writeChar(out, static_cast<unsigned char>(obj), static_cast<int>(obj), true);
 }
 
+void stringify(std::ostringstream &out, bool obj) {
+  out << (obj ? "`true`" : "`false`");
+}
+
 namespace {
 
 constexpr std::string_view yellow = "\033[33m";
@@ -228,10 +232,10 @@ void printDebug(std::string_view file, std::size_t line,
   terminate();
 }
 
-[[noreturn]] void failAsset(std::string_view message,
-                            std::string_view condition, std::string_view file,
-                            std::size_t line, std::string_view expressions,
-                            const std::vector<std::string> &values) {
+[[noreturn]] void failAssert(std::string_view message,
+                             std::string_view condition, std::string_view file,
+                             std::size_t line, std::string_view expressions,
+                             const std::vector<std::string> &values) {
   printStackTrace();
   printHeader(file, line, message);
   std::cerr << "Expected true, but was false: " << condition << '\n';

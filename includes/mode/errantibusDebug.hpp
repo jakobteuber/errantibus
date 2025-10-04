@@ -29,6 +29,7 @@ void stringify(std::ostringstream &out, const auto &obj);
 void stringify(std::ostringstream &out, char obj);
 void stringify(std::ostringstream &out, unsigned char obj);
 void stringify(std::ostringstream &out, signed char obj);
+void stringify(std::ostringstream &out, bool obj);
 
 template <StreamPrintable T>
 inline void stringify(std::ostringstream &out, const T &obj) {
@@ -83,10 +84,10 @@ void printDebug(std::string_view file, std::size_t line,
 [[noreturn]] void fail(std::string_view message, std::string_view file,
                        std::size_t line, std::string_view expressions,
                        const std::vector<std::string> &values);
-[[noreturn]] void failAsset(std::string_view message,
-                            std::string_view condition, std::string_view file,
-                            std::string_view line, std::string_view expressions,
-                            const std::vector<std::string> &values);
+[[noreturn]] void failAssert(std::string_view message,
+                             std::string_view condition, std::string_view file,
+                             std::size_t line, std::string_view expressions,
+                             const std::vector<std::string> &values);
 [[noreturn]] void failEq(std::string_view message, std::string_view firstExpr,
                          std::string_view firstValue,
                          std::string_view secondExpr,
@@ -104,7 +105,7 @@ void printDebug(std::string_view file, std::size_t line,
   do {                                                                         \
     bool condition = (cond);                                                   \
     if (!condition) [[unlikely]] {                                             \
-      errantibus::internal::failAsset(                                         \
+      errantibus::internal::failAssert(                                        \
           msg, #cond, __FILE__, __LINE__, #__VA_ARGS__,                        \
           errantibus::internal::generateReport(__VA_ARGS__));                  \
     }                                                                          \

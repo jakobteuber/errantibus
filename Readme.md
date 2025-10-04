@@ -54,8 +54,7 @@ FetchContent_MakeAvailable(Errantibus)
 
 target_link_libraries(MyApp PRIVATE Errantibus)
 ```
-```
-```
+
 
 # License
 
