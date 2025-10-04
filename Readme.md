@@ -61,10 +61,15 @@ results, enable debug options with `-g`.
 
 If you want to build for release, you can define `ERRANTIBUS_NODEBUG`. If it is
 defined, the debug versions won't create asserts. Instead, it will inform the 
-compiler that the asserted condition will always hold, so it can optimized based 
+compiler that the asserted condition will always hold, so it can optimize based 
 on, e.g. the unreachability of a `failDbg`. The assertions that are always active
 will still be active, if they fail the program will be terminated with a minimal
 notice.
+
+# Limitations 
+With optimizations enables, line information may be off by a couple of lines, causing 
+the source snippets to be garbage. Still, the symbol names should be correct.
+For best results, turn off optimizations while debugging.
 
 # Setup
 
