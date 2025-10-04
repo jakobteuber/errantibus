@@ -15,10 +15,11 @@ int main() {
   auto items = std::array{"a", "b", "c", "d"};
   int base = 10;
   int offset = -2;
-  int index = base + offset; // Simulate some non-trivial index calculation
+  int index = base + offset; 
+  // Simulate some non-trivial index calculation
 
-  assertDbg(index < std::ssize(items), "index out of bounds", items, base,
-            offset);
+  assertDbg(index < std::ssize(items), "index out of bounds", 
+            items, base, offset);
 }
 ```
 
@@ -33,8 +34,8 @@ Stacktrace (most recent call last):
         at /home/jakobteuber/Projekte/errantibus-test/main.cpp:11 at 0x400905
          9 |      int offset = -2;
         10 |      int index = base + offset;
-      > 11 |      assertDbg(index < std::ssize(items), "index out of bounds", items, base,
-        12 |                offset);
+      > 11 |      assertDbg(index < std::ssize(items), "index out of bounds", 
+        12 |                items, base, offset);
 
 /home/jakobteuber/Projekte/errantibus-test/main.cpp:12 - index out of bounds
 Expected true, but was false: index < std::ssize(items)
@@ -89,7 +90,8 @@ FetchContent_MakeAvailable(Errantibus)
 
 # Build your application
 add_executable(DemoApp main.cpp)
-target_link_libraries(DemoApp PRIVATE Errantibus)```
+target_link_libraries(DemoApp PRIVATE Errantibus)
+```
 
 
 # License
