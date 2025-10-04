@@ -19,7 +19,8 @@ int main() {
 
   assertDbg(index < std::ssize(items), "index out of bounds", items, base,
             offset);
-}```
+}
+```
 
 In a build with debug assertions enabled and debug information (`-g`), this will
 produce something close this output:
@@ -40,9 +41,6 @@ Expected true, but was false: index < std::ssize(items)
         (0) items = {`a`, `b`, `c`, `d`}
         (1) base = `10`
         (2) offset = `-2`
-```
-
-```
 ```
 
 The following macros are provided:
