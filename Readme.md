@@ -9,9 +9,40 @@ error messages than a plain `assert`.
 ```cpp  
 #include <errantibus.hpp>
 
-//... 
+#include <array>
 
-assertDbg(index < items.size(), "index out of bounds", items);
+int main() {
+  auto items = std::array{"a", "b", "c", "d"};
+  int base = 10;
+  int offset = -2;
+  int index = base + offset; // Simulate some non-trivial index calculation
+
+  assertDbg(index < std::ssize(items), "index out of bounds", items, base,
+            offset);
+}```
+
+In a build with debug assertions enabled and debug information (`-g`), this will
+produce something close this output:
+
+![see below for text version](./stacktrace.png)
+
+```
+Stacktrace (most recent call last):
+ #2 main
+        at /home/jakobteuber/Projekte/errantibus-test/main.cpp:11 at 0x400905
+         9 |      int offset = -2;
+        10 |      int index = base + offset;
+      > 11 |      assertDbg(index < std::ssize(items), "index out of bounds", items, base,
+        12 |                offset);
+
+/home/jakobteuber/Projekte/errantibus-test/main.cpp:12 - index out of bounds
+Expected true, but was false: index < std::ssize(items)
+        (0) items = {`a`, `b`, `c`, `d`}
+        (1) base = `10`
+        (2) offset = `-2`
+```
+
+```
 ```
 
 The following macros are provided:
@@ -41,19 +72,26 @@ notice.
 With CMake, you can use Errantibus via FetchContent:
 
 ```cmake
-set(CMAKE_CXX_FLAGS_DEBUG "-g")
-set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG -DERRANTIBUS_NODEBUG")
+cmake_minimum_required(VERSION 3.30)
+project(DemoApp LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_FLAGS "-g")
 
 include(FetchContent)
+
+# Fetch the Errantibus library
 FetchContent_Declare(
     Errantibus
-    GIT_REPOSITORY https://github.com/jakobteuber/errantibus.git
-    GIT_TAG v0.1.0
+    GIT_REPOSITORY https://github.com/jakobteuber/Errantibus.git
+    GIT_TAG v0.0.1
 )
 FetchContent_MakeAvailable(Errantibus)
 
-target_link_libraries(MyApp PRIVATE Errantibus)
-```
+# Build your application
+add_executable(DemoApp main.cpp)
+target_link_libraries(DemoApp PRIVATE Errantibus)```
 
 
 # License
